@@ -1,10 +1,8 @@
 #include <cstddef>
 #include <vector>
 #include <cstdint>
-#include <iostream>
 
 #include "Chunk.hpp"
-#include "chunk.hpp"
 #include "common.hpp"
 
 /** Writes a byte to the chunk */
@@ -20,7 +18,7 @@ std::size_t Chunk::addConstant(Value value) {
 
 void Chunk::writeConstant(Value value, size_t line) {
     const int idx = this->addConstant(value);
-    if(this->constants.size() <= UINT8_MAX) {
+    if(idx <= UINT8_MAX) {
         this->code.push_back(OP_CONST);
         this->write(idx, line);
     } else {

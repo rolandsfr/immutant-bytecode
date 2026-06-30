@@ -24,7 +24,10 @@ enable_testing()
 add_executable(
   immutant_test
   tests/Chunk.test.cpp
+  src/Chunk.cpp
 )
+
+target_include_directories(immutant_test PRIVATE src)
 
 target_link_libraries(
   immutant_test
