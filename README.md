@@ -36,3 +36,7 @@ ctest --test-dir build --output-on-failure
 ```
 
 Re-run `cmake -S . -B build` if you add a new test file to `CMakeLists.txt`.
+
+## License
+
+Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for details.
