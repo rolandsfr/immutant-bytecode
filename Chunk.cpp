@@ -5,6 +5,7 @@
 
 #include "Chunk.hpp"
 #include "chunk.hpp"
+#include "common.hpp"
 
 /** Writes a byte to the chunk */
 void Chunk::write(uint8_t byte, size_t line) {
@@ -17,6 +18,20 @@ std::size_t Chunk::addConstant(Value value) {
     return static_cast<size_t>(constants.size() - 1);
 }
 
+void Chunk::writeConstant(Value value, size_t line) {
+    const int idx = this->addConstant(value);
+    if(this->constants.size() <= UINT8_MAX) {
+        this->code.push_back(OP_CONST);
+        this->write(idx, line);
+    } else {
+        this->code.push_back(OP_CONST_LONG);
+        // split into 3 bytes
+        this->write(static_cast<uint8_t>((idx >> 16) & 0xff), line);
+        this->write(static_cast<uint8_t>((idx >> 8) & 0xff), line);
+        this->write(static_cast<uint8_t>(idx & 0xff), line);
+    }
+}
+
 /** Returns number of bytes in the chunk */
 std::size_t Chunk::count() {
     return static_cast<std::size_t>(code.size());
@@ -24,7 +39,7 @@ std::size_t Chunk::count() {
 
 /** Returns code at offset (index) */
 uint8_t Chunk::get_code(size_t index) {
-    return code.at(index);
+    return this->code.at(index);
 }
 
 // ========== LINES =============
@@ -54,5 +69,5 @@ size_t Chunk::get_line(size_t offset) {
         }
     }
 
-    return this->lines[low].line;
+    return this->lines[low - 1].line;
 }
