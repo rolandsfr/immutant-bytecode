@@ -50,8 +50,6 @@ void Chunk::write_line(size_t line, size_t offset) {
             .offset = offset,
             .line = line
         });
-
-        std::cout << "Added line " << line << " for offset " << offset << "\n";
     }
 }
 
