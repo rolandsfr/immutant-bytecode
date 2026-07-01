@@ -87,35 +87,35 @@ TEST(ChunkTest, WriteConstantUsesOpConstLongForIndex256) {
     EXPECT_EQ(chunk.get_code(lastInstructionOffset + 3), 0);
 }
 
-// TEST(ChunkTest, GetLineReturnsSourceLineForOffset) {
-//     Chunk chunk;
-//     chunk.write(OP_RETURN, 10);
-//     chunk.write(OP_CONST, 10);
-//     chunk.write(0, 10);
+TEST(ChunkTest, GetLineReturnsSourceLineForOffset) {
+    Chunk chunk;
+    chunk.write(OP_RETURN, 10);
+    chunk.write(OP_CONST, 10);
+    chunk.write(0, 10);
 
-//     EXPECT_EQ(chunk.get_line(0), 10u);
-//     EXPECT_EQ(chunk.get_line(1), 10u);
-//     EXPECT_EQ(chunk.get_line(2), 10u);
-// }
+    EXPECT_EQ(chunk.get_line(0), 10u);
+    EXPECT_EQ(chunk.get_line(1), 10u);
+    EXPECT_EQ(chunk.get_line(2), 10u);
+}
 
-// TEST(ChunkTest, GetLineUpdatesWhenSourceLineChanges) {
-//     Chunk chunk;
-//     chunk.write(OP_RETURN, 1);
-//     chunk.write(OP_RETURN, 2);
+TEST(ChunkTest, GetLineUpdatesWhenSourceLineChanges) {
+    Chunk chunk;
+    chunk.write(OP_RETURN, 1);
+    chunk.write(OP_RETURN, 2);
 
-//     EXPECT_EQ(chunk.get_line(0), 1u);
-//     EXPECT_EQ(chunk.get_line(1), 2u);
-// }
+    EXPECT_EQ(chunk.get_line(0), 1u);
+    EXPECT_EQ(chunk.get_line(1), 2u);
+}
 
-// TEST(ChunkTest, GetLineCarriesForwardUntilNextLineMarker) {
-//     Chunk chunk;
-//     chunk.write(OP_RETURN, 5);
-//     chunk.write(OP_CONST, 5);
-//     chunk.write(0, 5);
-//     chunk.write(OP_RETURN, 9);
+TEST(ChunkTest, GetLineCarriesForwardUntilNextLineMarker) {
+    Chunk chunk;
+    chunk.write(OP_RETURN, 5);
+    chunk.write(OP_CONST, 5);
+    chunk.write(0, 5);
+    chunk.write(OP_RETURN, 9);
 
-//     EXPECT_EQ(chunk.get_line(0), 5u);
-//     EXPECT_EQ(chunk.get_line(1), 5u);
-//     EXPECT_EQ(chunk.get_line(2), 5u);
-//     EXPECT_EQ(chunk.get_line(3), 9u);
-// }
+    EXPECT_EQ(chunk.get_line(0), 5u);
+    EXPECT_EQ(chunk.get_line(1), 5u);
+    EXPECT_EQ(chunk.get_line(2), 5u);
+    EXPECT_EQ(chunk.get_line(3), 9u);
+}

@@ -22,8 +22,8 @@ void disassembleChunk(Chunk& chunk, const std::string& name) {
 size_t disassembleInstruction(Chunk& chunk, size_t offset) {
     size_t line = chunk.get_line(offset);
 
-    std::cout << std::setfill('0') << std::setw(4) << offset << std::setfill(' ') << " ";
-    if(chunk.count() || line != chunk.get_line(offset - 1)) {
+    std::cout << std::right << std::setfill('0') << std::setw(4) << offset << std::setfill(' ') << " ";
+    if (offset == 0 || line != chunk.get_line(offset - 1)) {
         std::cout << std::right << std::setw(4) << line << " ";
     } else {
         std::cout << std::right << std::setw(5) << "| ";
@@ -55,7 +55,7 @@ size_t constInstruction(const std::string& name, Chunk& chunk, size_t offset) {
     Value constant = chunk.constants.at(constantCodeIdx);
 
     std::cout << std::left << std::setw(16) << name << ' '
-              << std::left << std::setw(2) << "idx " <<  constantCodeIdx << std::setw(0) << " -> " << constant << '\n';
+              << std::left << std::setw(2) << "idx " <<  constantCodeIdx << std::setw(0) << " -> " << constant << '\n' << std::resetiosflags(std::ios_base::adjustfield);
 
     return offset + 2;
 }
@@ -69,7 +69,7 @@ size_t constLongInstruction(const std::string& name, Chunk& chunk, size_t offset
     const Value constant = chunk.constants.at(idx);
 
      std::cout << std::left << std::setw(16) << name << ' '
-              << std::left << std::setw(2) << "idx " <<  idx << std::setw(0) << " -> " << constant << '\n';
+              << std::left << std::setw(2) << "idx " <<  idx << std::setw(0) << " -> " << constant << '\n' << std::resetiosflags(std::ios_base::adjustfield);
 
     // operator byte + 3 separate value bytes
     return offset + 4;

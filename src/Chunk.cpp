@@ -19,10 +19,10 @@ std::size_t Chunk::addConstant(Value value) {
 void Chunk::writeConstant(Value value, size_t line) {
     const int idx = this->addConstant(value);
     if(idx <= UINT8_MAX) {
-        this->code.push_back(OP_CONST);
+        this->write(OP_CONST, line);
         this->write(idx, line);
     } else {
-        this->code.push_back(OP_CONST_LONG);
+        this->write(OP_CONST_LONG, line);
         // split into 3 bytes
         this->write(static_cast<uint8_t>((idx >> 16) & 0xff), line);
         this->write(static_cast<uint8_t>((idx >> 8) & 0xff), line);
@@ -52,18 +52,26 @@ void Chunk::write_line(size_t line, size_t offset) {
 }
 
 size_t Chunk::get_line(size_t offset) {
+    if (lines.empty()) {
+        return 0;
+    }
+
+    // write_line stores 1-based code.size(); offset is 0-based byte index
+    const size_t target = offset + 1;
+
     int low = 0;
-    int high = static_cast<int>(this->lines.size());
+    int high = static_cast<int>(lines.size()) - 1;
+    int result = 0;
 
-    while(low <= high) {
-        int mid = (low + high) / 2;
-
-        if(this->lines[mid].offset <= offset) {
+    while (low <= high) {
+        const int mid = low + (high - low) / 2;
+        if (lines[mid].offset <= target) {
+            result = mid;
             low = mid + 1;
         } else {
             high = mid - 1;
         }
     }
 
-    return this->lines[low - 1].line;
+    return lines[result].line;
 }
