@@ -72,6 +72,28 @@ TEST(ChunkTest, WriteConstantUsesOpConstForIndex255) {
     EXPECT_EQ(chunk.get_code(lastInstructionOffset + 1), 255);
 }
 
+TEST(ChunkTest, WriteConstantOverflowsToOpConstLongPastSimpleConst) {
+    Chunk chunk;
+    for (size_t i = 0; i < 255; ++i) {
+        chunk.writeConstant(static_cast<Value>(i), 1);
+    }
+    chunk.writeConstant(255.0, 1);
+
+    const size_t sizeAfter255 = chunk.count();
+    EXPECT_EQ(chunk.get_code(sizeAfter255 - 2), OP_CONST);
+    EXPECT_EQ(chunk.get_code(sizeAfter255 - 1), 255);
+
+    chunk.writeConstant(256.0, 1);
+
+    ASSERT_EQ(chunk.constants.size(), 257u);
+    EXPECT_DOUBLE_EQ(chunk.constants[256], 256.0);
+    EXPECT_EQ(chunk.count(), sizeAfter255 + 4u);
+    EXPECT_EQ(chunk.get_code(sizeAfter255), OP_CONST_LONG);
+    EXPECT_EQ(chunk.get_code(sizeAfter255 + 1), 0);
+    EXPECT_EQ(chunk.get_code(sizeAfter255 + 2), 1);
+    EXPECT_EQ(chunk.get_code(sizeAfter255 + 3), 0);
+}
+
 TEST(ChunkTest, WriteConstantUsesOpConstLongForIndex256) {
     Chunk chunk;
     for (size_t i = 0; i < 256; ++i) {
