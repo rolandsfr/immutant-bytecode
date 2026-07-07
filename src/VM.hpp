@@ -2,7 +2,7 @@
 
 #include "Chunk.hpp"
 
-using InterpretResult = enum {
+enum InterpretResult {
     INTERPRET_OK,
     INTERPRET_COMPILE_ERR,
     INTERPRET_RUNTIME_ERR,
