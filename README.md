@@ -7,9 +7,16 @@ Extensive specification and original AST-walk interpreter can be fond here: http
 
 | Opcode | Size | Description |
 |--------|------|-------------|
-| `OP_RETURN` | 1 | Return from the current function |
-| `OP_CONST` | 2 | Load constant at 1-byte pool index |
-| `OP_CONST_LONG` | 4 | Load constant at 3-byte pool index |
+| `OP_RETURN` | 1 | Pop top stack value, print it, and halt |
+| `OP_CONST` | 2 | Push constant at 1-byte pool index |
+| `OP_CONST_LONG` | 4 | Push constant at 3-byte big-endian pool index |
+| `OP_NEGATE` | 1 | Pop top value, push its negation |
+| `OP_ADD` | 1 | Pop `b`, pop `a`, push `a + b` |
+| `OP_SUB` | 1 | Pop `b`, pop `a`, push `a - b` |
+| `OP_MUL` | 1 | Pop `b`, pop `a`, push `a * b` |
+| `OP_DIV` | 1 | Pop `b`, pop `a`, push `a / b` |
+
+Binary ops use stack order: the first value pushed becomes `a`, the second becomes `b`.
 
 ## Building
 
@@ -25,6 +32,15 @@ After changing source files:
 cmake --build build
 ./build/immutant
 ```
+
+To print a disassembly trace and stack dump on each instruction during execution, configure with `DEBUG_TRACE_EXECUTION`:
+
+```bash
+cmake -S . -B build -DCMAKE_CXX_FLAGS="-DDEBUG_TRACE_EXECUTION"
+cmake --build build
+```
+
+Re-run `cmake -S . -B build` without that flag (or delete `build/`) to turn tracing off.
 
 ## Testing
 

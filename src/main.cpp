@@ -8,7 +8,7 @@ int main() {
     Chunk chunk;
     chunk.writeConstant(32, 6);
     chunk.writeConstant(64, 7);
-    chunk.writeConstant(128, 10);
+    chunk.write(OP_NEGATE, 11);
     chunk.write(OP_RETURN, 11);
 
     VM vm;

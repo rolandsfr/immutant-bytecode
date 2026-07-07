@@ -38,6 +38,16 @@ size_t disassembleInstruction(Chunk& chunk, size_t offset) {
             return constInstruction("OP_CONST", chunk, offset);
         case OP_CONST_LONG: 
             return constLongInstruction("OP_CONST_LONG", chunk, offset);
+        case OP_NEGATE:
+            return simpleInstruction("OP_NEGATE", offset);
+        case OP_ADD:
+            return simpleInstruction("OP_ADD", offset);
+        case OP_SUB:
+            return simpleInstruction("OP_SUB", offset);
+        case OP_MUL:
+            return simpleInstruction("OP_MUL", offset);
+        case OP_DIV:
+            return simpleInstruction("OP_DIV", offset);
         default: {
             std::cout << "Unknown instruction " << static_cast<int>(code) << '\n';
             return offset + 1;
