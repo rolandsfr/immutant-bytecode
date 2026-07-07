@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <vector>
 #include <cstdint>
 #include "common.hpp"
@@ -11,6 +12,7 @@ using Value = double;
 */
 class Chunk {
     public:
+        std::vector<uint8_t> code;
         std::vector<Value> constants;
 
         /** Writes a byte to the chunk */
@@ -22,6 +24,12 @@ class Chunk {
         */
         void writeConstant(Value value, size_t line);
 
+        // Decode constant operands at opcode byte offset in code.
+        uint8_t readConstIdx8(size_t offset);
+        uint32_t readConstIdx24(size_t offset);
+        Value readConst8(size_t offset);
+        Value readConst24(size_t offset, uint32_t* outIdx);
+
         /** Returns number of bytes in the chunk */
         std::size_t count();
 
@@ -32,8 +40,6 @@ class Chunk {
 
     private:
         std::vector<Line> lines;
-
-        std::vector<uint8_t> code;
 
         /** Save constant to the pool */
         std::size_t addConstant(Value value);

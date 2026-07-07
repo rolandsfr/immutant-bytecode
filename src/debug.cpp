@@ -51,8 +51,8 @@ size_t simpleInstruction(const std::string& name, size_t offset) {
 }
 
 size_t constInstruction(const std::string& name, Chunk& chunk, size_t offset) {
-    size_t constantCodeIdx = chunk.get_code(offset + 1);
-    Value constant = chunk.constants.at(constantCodeIdx);
+    const size_t constantCodeIdx = chunk.readConstIdx8(offset);
+    const Value constant = chunk.readConst8(offset);
 
     std::cout << std::left << std::setw(16) << name << ' '
               << std::left << std::setw(2) << "idx " <<  constantCodeIdx << std::setw(0) << " -> " << constant << '\n' << std::resetiosflags(std::ios_base::adjustfield);
@@ -61,12 +61,8 @@ size_t constInstruction(const std::string& name, Chunk& chunk, size_t offset) {
 }
 
 size_t constLongInstruction(const std::string& name, Chunk& chunk, size_t offset) {
-    uint32_t idx = 0x0;
-    idx |= static_cast<uint32_t>(chunk.get_code(offset + 1)) << 16;
-    idx |= static_cast<uint32_t>(chunk.get_code(offset + 2)) << 8;
-    idx |= static_cast<uint32_t>(chunk.get_code(offset + 3));
-
-    const Value constant = chunk.constants.at(idx);
+    uint32_t idx;
+    const Value constant = chunk.readConst24(offset, &idx);
 
      std::cout << std::left << std::setw(16) << name << ' '
               << std::left << std::setw(2) << "idx " <<  idx << std::setw(0) << " -> " << constant << '\n' << std::resetiosflags(std::ios_base::adjustfield);

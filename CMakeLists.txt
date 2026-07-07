@@ -17,6 +17,7 @@ add_executable(immutant
     src/main.cpp
     src/Chunk.cpp
     src/debug.cpp
+    src/VM.cpp
 )
 
 enable_testing()

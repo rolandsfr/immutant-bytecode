@@ -30,6 +30,30 @@ void Chunk::writeConstant(Value value, size_t line) {
     }
 }
 
+uint8_t Chunk::readConstIdx8(size_t offset) {
+    return this->get_code(offset + 1);
+}
+
+uint32_t Chunk::readConstIdx24(size_t offset) {
+    uint32_t idx = 0;
+    idx |= static_cast<uint32_t>(this->get_code(offset + 1)) << 16;
+    idx |= static_cast<uint32_t>(this->get_code(offset + 2)) << 8;
+    idx |= static_cast<uint32_t>(this->get_code(offset + 3));
+    return idx;
+}
+
+Value Chunk::readConst8(size_t offset) {
+    return this->constants.at(this->readConstIdx8(offset));
+}
+
+Value Chunk::readConst24(size_t offset, uint32_t* outIdx) {
+    const uint32_t idx = this->readConstIdx24(offset);
+    if (outIdx) {
+        *outIdx = idx;
+    }
+    return this->constants.at(idx);
+}
+
 /** Returns number of bytes in the chunk */
 std::size_t Chunk::count() {
     return static_cast<std::size_t>(code.size());
