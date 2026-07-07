@@ -61,7 +61,8 @@ InterpretResult VM::run() {
                 break;
             }
             case OP_NEGATE: {
-                this->stack.push(-this->stack.pop());
+                Value* val = this->stack.end() - 1;
+                *val = -*val;
                 break;
             }
             case OP_MUL: {

@@ -17,8 +17,8 @@ class Stack {
 
         bool empty() const;
         std::size_t size() const;
-        const Value* begin() const;
-        const Value* end() const;
+        Value* begin() const;
+        Value* end() const;
 
     private:
         void resize();

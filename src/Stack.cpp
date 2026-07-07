@@ -56,10 +56,10 @@ std::size_t Stack::size() const {
     return static_cast<std::size_t>(this->top - this->buffer);
 }
 
-const Value* Stack::begin() const {
+Value* Stack::begin() const {
     return this->buffer;
 }
 
-const Value* Stack::end() const {
+Value* Stack::end() const {
     return this->top;
 }
