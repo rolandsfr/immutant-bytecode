@@ -16,10 +16,17 @@ FetchContent_MakeAvailable(googletest)
 add_executable(immutant
     src/main.cpp
     src/Chunk.cpp
+    src/Compiler.cpp
     src/debug.cpp
+    src/interpret.cpp
+    src/repl.cpp
+    src/runFile.cpp
+    src/Scanner.cpp
     src/Stack.cpp
     src/VM.cpp
 )
+
+target_include_directories(immutant PRIVATE src)
 
 enable_testing()
 
