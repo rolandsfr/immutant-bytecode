@@ -34,10 +34,12 @@ add_executable(
   immutant_test
   tests/Chunk.test.cpp
   tests/debug.test.cpp
+  tests/Scanner.test.cpp
   tests/Stack.test.cpp
   tests/VM.test.cpp
   src/Chunk.cpp
   src/debug.cpp
+  src/Scanner.cpp
   src/Stack.cpp
   src/VM.cpp
 )

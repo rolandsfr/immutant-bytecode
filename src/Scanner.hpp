@@ -1,17 +1,7 @@
 #pragma once
 
 #include <cstdlib>
-
-typedef enum {
-
-} TokenType;
-
-typedef struct {
-    TokenType type;
-    char* start;
-    int len;
-    int line;
-} Token;
+#include "token.hpp"
 
 class Scanner {
     public:
@@ -20,4 +10,22 @@ class Scanner {
         int line;
 
         void init(const char* source);
+
+        Token scanToken();
+
+    private:
+        bool isAtEnd();
+        char advance();
+        bool match(char expected);
+        char peek();
+        char peekNext();
+
+        void skipWhitespace();
+        Token string();
+        Token number();
+        bool isNumber();
+        bool isDigit(char c);
+
+        Token makeToken(TokenType type);
+        Token errorToken(const char* message);
 };
