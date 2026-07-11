@@ -168,3 +168,99 @@ TEST(ScannerTest, LeadingDotNumberLiteral) {
 TEST(ScannerTest, UnexpectedCharacterReportsError) {
     EXPECT_SCAN_ERR(scanAll("@"), "Unexpected character.");
 }
+
+TEST(ScannerTest, ElseKeyword) {
+    auto tokens = scanAll("else");
+
+    EXPECT_SCAN_EOF(tokens, 2u);
+    EXPECT_TOKEN(tokens[0], TOKEN_ELSE, "else");
+}
+
+TEST(ScannerTest, MutKeyword) {
+    auto tokens = scanAll("mut");
+
+    EXPECT_SCAN_EOF(tokens, 2u);
+    EXPECT_TOKEN(tokens[0], TOKEN_MUTANT, "mut");
+}
+
+TEST(ScannerTest, NilKeyword) {
+    auto tokens = scanAll("nil");
+
+    EXPECT_SCAN_EOF(tokens, 2u);
+    EXPECT_TOKEN(tokens[0], TOKEN_NIL, "nil");
+}
+
+TEST(ScannerTest, PureKeyword) {
+    auto tokens = scanAll("pure");
+
+    EXPECT_SCAN_EOF(tokens, 2u);
+    EXPECT_TOKEN(tokens[0], TOKEN_PURE, "pure");
+}
+
+TEST(ScannerTest, ReturnKeyword) {
+    auto tokens = scanAll("return");
+
+    EXPECT_SCAN_EOF(tokens, 2u);
+    EXPECT_TOKEN(tokens[0], TOKEN_RETURN, "return");
+}
+
+TEST(ScannerTest, TrueKeyword) {
+    auto tokens = scanAll("true");
+
+    EXPECT_SCAN_EOF(tokens, 2u);
+    EXPECT_TOKEN(tokens[0], TOKEN_TRUE, "true");
+}
+
+TEST(ScannerTest, WhileKeyword) {
+    auto tokens = scanAll("while");
+
+    EXPECT_SCAN_EOF(tokens, 2u);
+    EXPECT_TOKEN(tokens[0], TOKEN_WHILE, "while");
+}
+
+TEST(ScannerTest, FnKeyword) {
+    auto tokens = scanAll("fn");
+
+    EXPECT_SCAN_EOF(tokens, 2u);
+    EXPECT_TOKEN(tokens[0], TOKEN_FN, "fn");
+}
+
+TEST(ScannerTest, FalseKeyword) {
+    auto tokens = scanAll("false");
+
+    EXPECT_SCAN_EOF(tokens, 2u);
+    EXPECT_TOKEN(tokens[0], TOKEN_FALSE, "false");
+}
+
+TEST(ScannerTest, IfKeyword) {
+    auto tokens = scanAll("if");
+
+    EXPECT_SCAN_EOF(tokens, 2u);
+    EXPECT_TOKEN(tokens[0], TOKEN_IF, "if");
+}
+
+TEST(ScannerTest, ImutKeyword) {
+    auto tokens = scanAll("imut");
+
+    EXPECT_SCAN_EOF(tokens, 2u);
+    EXPECT_TOKEN(tokens[0], TOKEN_IMMUTANT, "imut");
+}
+
+TEST(ScannerTest, ImpureKeyword) {
+    auto tokens = scanAll("impure");
+
+    EXPECT_SCAN_EOF(tokens, 2u);
+    EXPECT_TOKEN(tokens[0], TOKEN_IMPURE, "impure");
+}
+
+TEST(ScannerTest, KeywordPrefixStaysIdentifier) {
+    auto tokens = scanAll("trueish mutant fnn falsehood impurely imutable");
+
+    EXPECT_SCAN_EOF(tokens, 7u);
+    EXPECT_TOKEN(tokens[0], TOKEN_IDENTIFIER, "trueish");
+    EXPECT_TOKEN(tokens[1], TOKEN_IDENTIFIER, "mutant");
+    EXPECT_TOKEN(tokens[2], TOKEN_IDENTIFIER, "fnn");
+    EXPECT_TOKEN(tokens[3], TOKEN_IDENTIFIER, "falsehood");
+    EXPECT_TOKEN(tokens[4], TOKEN_IDENTIFIER, "impurely");
+    EXPECT_TOKEN(tokens[5], TOKEN_IDENTIFIER, "imutable");
+}

@@ -8,58 +8,58 @@ static std::size_t growCapacity(std::size_t capacity) {
 }
 
 Stack::Stack() {
-    this->capacity = STACK_INITIAL_CAPACITY;
-    this->buffer = static_cast<Value*>(std::malloc(sizeof(Value) * this->capacity));
-    this->top = this->buffer;
+    capacity = STACK_INITIAL_CAPACITY;
+    buffer = static_cast<Value*>(std::malloc(sizeof(Value) * capacity));
+    top = buffer;
 }
 
 Stack::~Stack() {
-    std::free(this->buffer);
+    std::free(buffer);
 }
 
 void Stack::reset() {
-    this->top = this->buffer;
+    top = buffer;
 }
 
 void Stack::resize() {
-    const std::size_t offset = static_cast<std::size_t>(this->top - this->buffer);
-    this->capacity = growCapacity(this->capacity);
+    const std::size_t offset = static_cast<std::size_t>(top - buffer);
+    capacity = growCapacity(capacity);
     Value* resized = static_cast<Value*>(
-        std::realloc(this->buffer, sizeof(Value) * this->capacity));
+        std::realloc(buffer, sizeof(Value) * capacity));
     if (resized == nullptr) {
         std::cerr << "Stack allocation failed.\n";
         std::exit(EXIT_FAILURE);
     }
-    this->buffer = resized;
-    this->top = this->buffer + offset;
+    buffer = resized;
+    top = buffer + offset;
 }
 
 void Stack::push(Value value) {
-    if (static_cast<std::size_t>(this->top - this->buffer) >= this->capacity) {
-        this->resize();
+    if (static_cast<std::size_t>(top - buffer) >= capacity) {
+        resize();
     }
 
-    *this->top = value;
-    this->top++;
+    *top = value;
+    top++;
 }
 
 Value Stack::pop() {
-    this->top--;
-    return *this->top;
+    top--;
+    return *top;
 }
 
 bool Stack::empty() const {
-    return this->top == this->buffer;
+    return top == buffer;
 }
 
 std::size_t Stack::size() const {
-    return static_cast<std::size_t>(this->top - this->buffer);
+    return static_cast<std::size_t>(top - buffer);
 }
 
 Value* Stack::begin() const {
-    return this->buffer;
+    return buffer;
 }
 
 Value* Stack::end() const {
-    return this->top;
+    return top;
 }

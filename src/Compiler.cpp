@@ -9,14 +9,14 @@
 Compiler::Compiler(Scanner& scanner): scanner(scanner) {};
 
 void Compiler::compile(const char* source) {
-    this->scanner.init(source);
+    scanner.init(source);
 
     // Temporary code
     int line = -1;
     Token token;
 
     for(;;) {
-        token = this->scanner.scanToken();
+        token = scanner.scanToken();
 
         if(token.line != line) {
             std::cout << std::setw(4) << token.line << " ";

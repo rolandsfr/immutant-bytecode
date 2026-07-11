@@ -11,9 +11,9 @@ enum InterpretResult {
 
 #define BINARY_OP(op) \
     do { \
-        double b = this->stack.pop(); \
-        double a = this->stack.pop(); \
-        this->stack.push(a op b);    \
+        double b = stack.pop(); \
+        double a = stack.pop(); \
+        stack.push(a op b);    \
     } while (0); \
 
 class VM {

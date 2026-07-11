@@ -9,18 +9,18 @@
 #include "debug.hpp"
 #endif
 
-#define READ_BYTE() (*this->ip++)
+#define READ_BYTE() (*ip++)
 
 VM::VM() {
-    this->chunk = nullptr;
-    this->ip = nullptr;
+    chunk = nullptr;
+    ip = nullptr;
 }
 
 InterpretResult VM::interpret(Chunk& chunk) {
     this->chunk = &chunk;
-    this->ip = chunk.code.data();
-    this->stack.reset();
-    return this->run();
+    ip = chunk.code.data();
+    stack.reset();
+    return run();
 }
 
 InterpretResult VM::run() {
@@ -28,9 +28,9 @@ InterpretResult VM::run() {
 
     for (;;) {
         #ifdef DEBUG_TRACE_EXECUTION
-            if (!this->stack.empty()) {
+            if (!stack.empty()) {
                 std::cout << "Stack: ";
-                for (const Value* val = this->stack.begin(); val < this->stack.end(); val++) {
+                for (const Value* val = stack.begin(); val < stack.end(); val++) {
                     std::cout << "[ " << *val << " ]";
                 }
                 std::cout << "\n========================\n";
@@ -42,11 +42,11 @@ InterpretResult VM::run() {
 
         switch (instr) {
             case OP_RETURN:
-                std::cout << this->stack.pop() << '\n';
+                std::cout << stack.pop() << '\n';
                 return INTERPRET_OK;
             case OP_CONST: {
                 const uint8_t index = READ_BYTE();
-                this->stack.push(chunk->constants[index]);
+                stack.push(chunk->constants[index]);
                 break;
             }
             case OP_CONST_LONG: {
@@ -57,11 +57,11 @@ InterpretResult VM::run() {
                     (static_cast<uint32_t>(b0) << 16) |
                     (static_cast<uint32_t>(b1) << 8) |
                     b2;
-                this->stack.push(chunk->constants[index]);
+                stack.push(chunk->constants[index]);
                 break;
             }
             case OP_NEGATE: {
-                Value* val = this->stack.end() - 1;
+                Value* val = stack.end() - 1;
                 *val = -*val;
                 break;
             }
