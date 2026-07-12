@@ -26,6 +26,26 @@ add_executable(immutant
     src/VM.cpp
 )
 
+option(
+  DEBUG_TRACE_EXECUTION
+  "Print each bytecode instruction before executing it"
+  OFF
+)
+
+option(
+  DEBUG_PRINT_CODE
+  "Print chunk that was parsed. Runs only on successful parse"
+  OFF
+)
+
+if(DEBUG_TRACE_EXECUTION)
+  target_compile_definitions(immutant PRIVATE DEBUG_TRACE_EXECUTION)
+endif()
+
+if(DEBUG_PRINT_CODE)
+  target_compile_definitions(immutant PRIVATE DEBUG_PRINT_CODE)
+endif()
+
 target_include_directories(immutant PRIVATE src)
 
 enable_testing()
@@ -33,11 +53,13 @@ enable_testing()
 add_executable(
   immutant_test
   tests/Chunk.test.cpp
+  tests/Compiler.test.cpp
   tests/debug.test.cpp
   tests/Scanner.test.cpp
   tests/Stack.test.cpp
   tests/VM.test.cpp
   src/Chunk.cpp
+  src/Compiler.cpp
   src/debug.cpp
   src/Scanner.cpp
   src/Stack.cpp

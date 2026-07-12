@@ -1,7 +1,7 @@
-#include "VM.hpp"
-#include "Compiler.hpp"
+#include "interpret.hpp"
 
-InterpretResult interpret(const char* source, Compiler& compiler) {
-    compiler.compile(source);
-    return INTERPRET_OK;
+InterpretResult interpret(const char* source, Compiler& compiler, VM& vm) {
+    Chunk chunk;
+    if (!compiler.compile(source, chunk)) return INTERPRET_COMPILE_ERR;
+    return vm.interpret(chunk);
 }

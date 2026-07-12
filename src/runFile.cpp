@@ -10,9 +10,9 @@
 
 std::string static readFile(const char* path);
 
-void runFile(const char* path, Compiler& compiler) {
+void runFile(const char* path, Compiler& compiler, VM& vm) {
     std::string source = readFile(path);
-    InterpretResult result = interpret(&source[0], compiler);
+    InterpretResult result = interpret(&source[0], compiler, vm);
 
     if(result == INTERPRET_COMPILE_ERR) std::exit(65);
     if(result == INTERPRET_RUNTIME_ERR) std::exit(70);

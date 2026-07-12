@@ -1,7 +1,7 @@
 #include <iostream>
 #include "interpret.hpp"
 
-void repl(Compiler& compiler) {
+void repl(Compiler& compiler, VM& vm) {
     char buf[1024];
     for (;;) {
         std::cout << "> ";
@@ -10,6 +10,6 @@ void repl(Compiler& compiler) {
             break;
         }
 
-        interpret(buf, compiler);
+        interpret(buf, compiler, vm);
     }
 }

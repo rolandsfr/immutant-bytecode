@@ -49,7 +49,7 @@ typedef enum {
     // End of file
     TOKEN_EOF,
 
-    TOKEN_ERR = 404
+    TOKEN_ERR
 } TokenType;
 
 typedef struct {

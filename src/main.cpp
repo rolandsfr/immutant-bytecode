@@ -15,9 +15,9 @@ int main(int arg_c, char** argv) {
     VM vm;
 
     if(arg_c == 1) {
-        repl(compiler);
+        repl(compiler, vm);
     } else if(arg_c == 2) {
-        runFile(argv[1], compiler);
+        runFile(argv[1], compiler, vm);
     } else {
         std::exit(64);
     }
